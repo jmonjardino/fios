@@ -1,0 +1,8 @@
+{
+  "uuid": "fios@jmonjardino.dev",
+  "name": "Fios",
+  "description": "The threads you have in progress, in the top bar. Agents suggest new ones; you approve them and tick them off.",
+  "shell-version": ["49", "50", "51"],
+  "settings-schema": "org.gnome.shell.extensions.fios",
+  "url": "https://monjardino.dev"
+}

@@ -1,0 +1,38 @@
+
+/* Dark: near-black zinc glass with hairline borders */
+
+.fios-menu {
+  background-color: rgba(18, 18, 22, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  color: #ededf0;
+}
+
+.fios-row:hover,
+.fios-row:focus,
+.fios-fold:hover,
+.fios-action:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.fios-row:active { background-color: rgba(255, 255, 255, 0.1); }
+
+.fios-entry {
+  color: #ededf0;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.fios-entry:focus { border-color: #7c83ff; }
+.fios-entry StLabel.hint-text { color: rgba(237, 237, 240, 0.4); }
+
+.fios-check { border-color: rgba(255, 255, 255, 0.35); }
+
+.fios-text-violet { color: #a78bfa; }
+.fios-text-sky { color: #38bdf8; }
+.fios-text-green { color: #4ade80; }
+.fios-text-orange { color: #fb923c; }
+.fios-text-rose { color: #fb7185; }
+.fios-text-blue { color: #60a5fa; }
+.fios-text-amber { color: #fbbf24; }
+.fios-text-teal { color: #2dd4bf; }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.fios" path="/org/gnome/shell/extensions/fios/">
+    <key name="position" type="s">
+      <choices>
+        <choice value="left"/>
+        <choice value="center"/>
+        <choice value="right"/>
+      </choices>
+      <default>'right'</default>
+      <summary>Where the button sits in the top bar</summary>
+    </key>
+    <key name="toggle-shortcut" type="as">
+      <default><![CDATA[['<Super>period']]]></default>
+      <summary>Shortcut that opens and closes the menu</summary>
+    </key>
+    <key name="notify" type="b">
+      <default>true</default>
+      <summary>Show a notification when an agent suggests a thread</summary>
+    </key>
+  </schema>
+</schemalist>

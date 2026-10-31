@@ -1,0 +1,247 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later
+ *
+ * Layout shared by the dark and light sheets; `make` appends each colour
+ * file to it to build stylesheet-dark.css and stylesheet-light.css. Dimmed
+ * text is dimmed with the actor's opacity, set in indicator.js.
+ */
+
+/* Top bar */
+
+.fios-badge {
+  font-weight: bold;
+  font-feature-settings: "tnum";
+  padding-left: 5px;
+}
+
+.fios-pending {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  margin-left: 4px;
+  background-color: #7c83ff;
+}
+
+/* Menu surface */
+
+.fios-menu {
+  min-width: 25em;
+  max-width: 25em;
+  padding: 6px;
+  border-radius: 16px;
+}
+
+.fios-header {
+  padding: 8px 6px 8px 12px;
+}
+
+.fios-heading {
+  font-weight: 800;
+  font-size: 1.1em;
+}
+
+.fios-summary {
+  font-size: 0.82em;
+  padding-top: 1px;
+  font-feature-settings: "tnum";
+}
+
+.fios-caption {
+  padding: 10px 12px 4px;
+}
+
+.fios-caption StLabel {
+  font-size: 0.72em;
+  font-weight: bold;
+  letter-spacing: 0.6px;
+}
+
+.fios-fold {
+  padding: 2px 0;
+  border-radius: 6px;
+}
+
+.fios-fold-box {
+  spacing: 4px;
+}
+
+.fios-fold StLabel {
+  font-size: 0.72em;
+  font-weight: bold;
+}
+
+/* Quick add */
+
+.fios-add {
+  padding: 2px 6px 6px;
+}
+
+.fios-entry {
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 0.92em;
+  border: 1px solid transparent;
+}
+
+/* Rows */
+
+.fios-row {
+  padding: 7px 8px 7px 10px;
+  spacing: 11px;
+  border-radius: 10px;
+}
+
+.fios-text {
+  spacing: 2px;
+}
+
+.fios-title {
+  font-weight: 600;
+  font-size: 0.95em;
+}
+
+.fios-meta {
+  spacing: 6px;
+}
+
+.fios-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 4px;
+}
+
+.fios-project {
+  font-size: 0.78em;
+  font-weight: bold;
+}
+
+.fios-next {
+  font-size: 0.8em;
+}
+
+.fios-trailing,
+.fios-decide {
+  spacing: 4px;
+}
+
+.fios-check {
+  width: 16px;
+  height: 16px;
+  border-radius: 9px;
+  border-width: 1.5px;
+  border-style: solid;
+}
+
+.fios-check StIcon {
+  color: transparent;
+}
+
+.fios-check:checked {
+  background-color: #5e6ad2;
+  border-color: #5e6ad2;
+}
+
+.fios-check:checked StIcon,
+.fios-check:hover StIcon {
+  color: #ffffff;
+}
+
+.fios-check:hover {
+  border-color: #7c83ff;
+  background-color: rgba(94, 106, 210, 0.55);
+}
+
+.fios-origin {
+  min-width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  font-size: 0.68em;
+  font-weight: 800;
+  text-align: center;
+  color: #ffffff;
+  padding-top: 1px;
+}
+
+.fios-origin-jaime { background-color: #52525b; }
+.fios-origin-claude { background-color: #c96442; }
+.fios-origin-codex { background-color: #0f766e; }
+.fios-origin-antigravity { background-color: #2563eb; }
+.fios-origin-hermes { background-color: #a16207; }
+
+/* Suggestions: a tinted card per suggestion */
+
+.fios-suggestion {
+  padding: 9px 8px 9px 10px;
+  margin: 2px 0;
+  spacing: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(124, 131, 255, 0.28);
+  background-color: rgba(94, 106, 210, 0.12);
+}
+
+.fios-eyebrow {
+  font-size: 0.74em;
+  font-weight: 600;
+}
+
+/* Buttons */
+
+.fios-action {
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.fios-action:focus,
+.fios-pill:focus,
+.fios-check:focus,
+.fios-fold:focus {
+  box-shadow: inset 0 0 0 2px #7c83ff;
+}
+
+.fios-action-danger:hover {
+  color: #f87171;
+  background-color: rgba(239, 68, 68, 0.16);
+}
+
+.fios-pill {
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.82em;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.fios-pill-accent { background-color: #5e6ad2; }
+.fios-pill-accent:hover { background-color: #6f7bf0; }
+.fios-pill-danger { background-color: #c01c28; }
+.fios-pill-danger:hover { background-color: #e01b24; }
+
+/* Project tones: dots solid, names readable on either surface */
+
+.fios-tone-violet { background-color: #8b5cf6; }
+.fios-tone-sky { background-color: #0ea5e9; }
+.fios-tone-green { background-color: #22c55e; }
+.fios-tone-orange { background-color: #f97316; }
+.fios-tone-rose { background-color: #f43f5e; }
+.fios-tone-blue { background-color: #3b82f6; }
+.fios-tone-amber { background-color: #f59e0b; }
+.fios-tone-teal { background-color: #14b8a6; }
+
+/* Empty and error state */
+
+.fios-empty {
+  padding: 18px 16px 20px;
+}
+
+.fios-empty-icon {
+  padding-bottom: 10px;
+}
+
+.fios-empty-title {
+  font-weight: bold;
+}
+
+.fios-empty-text {
+  font-size: 0.85em;
+  text-align: center;
+  padding-top: 3px;
+}

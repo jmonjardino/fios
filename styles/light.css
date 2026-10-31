@@ -1,0 +1,38 @@
+
+/* Light: frosted white with soft shadow */
+
+.fios-menu {
+  background-color: rgba(252, 252, 253, 0.97);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+  color: #18181b;
+}
+
+.fios-row:hover,
+.fios-row:focus,
+.fios-fold:hover,
+.fios-action:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.fios-row:active { background-color: rgba(0, 0, 0, 0.09); }
+
+.fios-entry {
+  color: #18181b;
+  background-color: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.fios-entry:focus { border-color: #5e6ad2; }
+.fios-entry StLabel.hint-text { color: rgba(24, 24, 27, 0.4); }
+
+.fios-check { border-color: rgba(0, 0, 0, 0.3); }
+
+.fios-text-violet { color: #7c3aed; }
+.fios-text-sky { color: #0284c7; }
+.fios-text-green { color: #16a34a; }
+.fios-text-orange { color: #ea580c; }
+.fios-text-rose { color: #e11d48; }
+.fios-text-blue { color: #2563eb; }
+.fios-text-amber { color: #d97706; }
+.fios-text-teal { color: #0d9488; }
