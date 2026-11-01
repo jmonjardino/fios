@@ -127,22 +127,36 @@ export async function run() {
     await Scripting.sleep(1000);
     await shoot(Main.panel._rightBox, 'panel');
 
-    indicator.menu.open();
-    await Scripting.sleep(600);
-    await shoot(indicator.menu.actor, 'menu-dark');
+    const alerts = indicator._alerts;
+    check(alerts.has('summary'), 'the suggestions waiting at login get one summary card');
+    check(alerts.card('summary')?._title.text === '2 sugestões à espera', 'the summary counts them');
 
-    // An agent suggests while the menu is open: the folder monitor picks it up.
+    // An agent suggests: the folder monitor picks it up and a card stays on screen.
     GLib.file_set_contents(`${DIR}/sug3.json`, JSON.stringify({
-        id: 'sug3', title: 'Atualizar as notas da sessão', project: 'notas', origin: 'hermes',
+        id: 'sug3', title: 'Atualizar as notas da sessão antes de fechar o dia', project: 'notas',
+        next: 'resumir o que ficou a meio', origin: 'hermes',
         status: 'suggested', createdAt: ago(0), updatedAt: ago(0),
     }));
-    check(await waitFor(() => indicator._suggested.size === 3, 4000), 'a new suggestion file appears in the menu');
+    check(await waitFor(() => alerts.has('sug3'), 4000), 'a new suggestion gets its own card');
+    await Scripting.sleep(500);
+    await shoot(alerts.actor, 'cards-dark');
+    check(alerts.card('summary')?._title.text === '3 sugestões à espera', 'the summary follows the count');
+
+    await click(alerts.card('sug3')._approve);
+    check(await waitFor(() => readFile('sug3')?.status === 'active', 3000), 'approving from the card writes the thread as active');
+    check(await waitFor(() => !alerts.has('sug3'), 2000), 'the card goes once decided');
+    check(await waitFor(() => indicator._active.size === 4, 3000), 'the thread approved on the card joins the threads in progress');
+
+    indicator.menu.open();
+    await Scripting.sleep(600);
+    check(!alerts.has('summary'), 'opening the menu dismisses the summary card');
+    await shoot(indicator.menu.actor, 'menu-dark');
 
     const suggestion = indicator._suggested.row('sug1');
     await click(suggestion._approve);
     check(indicator.menu.isOpen, 'approving leaves the menu open');
     check(await waitFor(() => readFile('sug1')?.status === 'active', 3000), 'approving writes the thread as active');
-    check(await waitFor(() => indicator._active.size === 4, 3000), 'the approved thread joins the threads in progress');
+    check(await waitFor(() => indicator._active.size === 5, 3000), 'the approved thread joins the threads in progress');
 
     await click(indicator._suggested.row('sug2')._reject);
     check(await waitFor(() => readFile('sug2') === null, 3000), 'rejecting deletes the suggestion');

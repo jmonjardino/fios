@@ -226,6 +226,45 @@
 .fios-tone-amber { background-color: #f59e0b; }
 .fios-tone-teal { background-color: #14b8a6; }
 
+/* On-screen suggestion cards */
+
+.fios-toasts {
+  spacing: 8px;
+}
+
+.fios-toast {
+  width: 22em;
+  padding: 10px 12px 12px 14px;
+  border-radius: 14px;
+  spacing: 6px;
+}
+
+.fios-toast-head {
+  spacing: 8px;
+}
+
+.fios-toast-body {
+  spacing: 3px;
+}
+
+.fios-toast-title {
+  font-weight: 600;
+  font-size: 0.98em;
+}
+
+.fios-toast-actions {
+  spacing: 6px;
+  padding-top: 4px;
+}
+
+.fios-toast-close {
+  padding: 4px;
+}
+
+.fios-pill-ghost {
+  font-weight: 600;
+}
+
 /* Empty and error state */
 
 .fios-empty {

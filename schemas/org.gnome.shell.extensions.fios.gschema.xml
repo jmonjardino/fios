@@ -14,9 +14,14 @@
       <default><![CDATA[['<Super>period']]]></default>
       <summary>Shortcut that opens and closes the menu</summary>
     </key>
-    <key name="notify" type="b">
-      <default>true</default>
-      <summary>Show a notification when an agent suggests a thread</summary>
+    <key name="alerts" type="s">
+      <choices>
+        <choice value="persistent"/>
+        <choice value="banner"/>
+        <choice value="off"/>
+      </choices>
+      <default>'persistent'</default>
+      <summary>How a new suggestion shows: a card that stays until decided, a plain notification, or nothing</summary>
     </key>
   </schema>
 </schemalist>

@@ -16,7 +16,15 @@ make enable    # no Wayland, só depois de terminar sessão e voltar a entrar
 ```
 
 Preferências (`gnome-extensions prefs fios@jmonjardino.dev`): posição na top
-bar (esquerda, centro ou direita), atalho (por omissão `Super+.`) e notificações.
+bar (esquerda, centro ou direita), atalho (por omissão `Super+.`) e alertas.
+
+## Alertas
+
+Cada sugestão nova aparece num cartão por baixo da top bar, do lado do botão,
+e fica lá até Aprovar, Rejeitar ou fechar (fechar deixa-a no menu). No login,
+um cartão só resume as que já estavam à espera. Os cartões escondem-se sobre
+janelas em ecrã inteiro e não aparecem com o "Não incomodar" ligado. Nas
+preferências pode trocar-se por notificações normais do GNOME ou só pelo menu.
 
 ## Comando `fio`
 
