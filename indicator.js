@@ -22,28 +22,16 @@ import {
     linkUri,
     makeItem,
     parseQuickAdd,
-    projectTone,
     relativeTime,
     summary,
     transition,
 } from './model.js';
 import * as Store from './store.js';
+import {AlertStack} from './alerts.js';
+import {DIM, MetaLine, iconButton, originBadge} from './widgets.js';
 
 // How long "Remover?" waits for the second click.
 const CONFIRM_MS = 4000;
-
-// Secondary text is dimmed by opacity so it suits the light and dark styles alike.
-const DIM = 165;
-
-function iconButton(iconName, accessibleName, extraClass = '') {
-    return new St.Button({
-        style_class: `fios-action ${extraClass}`.trim(),
-        child: new St.Icon({icon_name: iconName, icon_size: 14}),
-        accessible_name: accessibleName,
-        can_focus: true,
-        y_align: Clutter.ActorAlign.CENTER,
-    });
-}
 
 /**
  * A menu row that is not a menu item: not hovered, not activated, not dimmed.
@@ -60,44 +48,6 @@ function staticItem(styleClass) {
     item.track_hover = false;
 
     return item;
-}
-
-function originBadge(origin) {
-    return new St.Label({
-        style_class: `fios-origin fios-origin-${origin}`,
-        text: ORIGINS[origin].letter,
-        y_align: Clutter.ActorAlign.CENTER,
-    });
-}
-
-/** Project dot and name, then the next step: the row's second line. */
-class MetaLine {
-    constructor() {
-        this.actor = new St.BoxLayout({style_class: 'fios-meta'});
-        this._dot = new St.Widget({style_class: 'fios-dot', y_align: Clutter.ActorAlign.CENTER});
-        this._project = new St.Label({style_class: 'fios-project', y_align: Clutter.ActorAlign.CENTER});
-        this._next = new St.Label({
-            style_class: 'fios-next',
-            opacity: DIM,
-            x_expand: true,
-            y_align: Clutter.ActorAlign.CENTER,
-        });
-        this._next.clutter_text.ellipsize = Pango.EllipsizeMode.END;
-        for (const child of [this._dot, this._project, this._next])
-            this.actor.add_child(child);
-    }
-
-    update(item) {
-        const tone = projectTone(item.project);
-        this._dot.style_class = `fios-dot fios-tone-${tone}`;
-        this._dot.visible = Boolean(item.project);
-        this._project.style_class = `fios-project fios-text-${tone}`;
-        this._project.text = item.project;
-        this._project.visible = Boolean(item.project);
-        this._next.text = item.next ? `→ ${item.next}` : '';
-        this._next.visible = Boolean(item.next);
-        this.actor.visible = Boolean(item.project || item.next);
-    }
 }
 
 const ThreadRow = GObject.registerClass(
@@ -309,7 +259,7 @@ class Section {
 
 export const Indicator = GObject.registerClass(
 class Indicator extends PanelMenu.Button {
-    _init(extension, settings) {
+    _init(extension, settings, side) {
         super._init(0.5, 'Fios');
         this._settings = settings;
         this._items = null;
@@ -333,8 +283,19 @@ class Indicator extends PanelMenu.Button {
         this.menu.box.add_style_class_name('fios-menu');
         this._buildMenu();
 
+        this._alerts = new AlertStack({
+            side,
+            gicon: this._gicon,
+            actions: {
+                approve: item => this._apply(item, 'approve'),
+                reject: item => this._delete(item),
+                openMenu: () => this.menu.open(),
+            },
+        });
+
         this.menu.connect('open-state-changed', (_menu, isOpen) => {
             if (isOpen) {
+                this._alerts.dismissSummary();
                 this._render();
             } else {
                 this._addRow.visible = false;
@@ -548,21 +509,44 @@ class Indicator extends PanelMenu.Button {
         }
     }
 
-    // A desktop notification for each suggestion that arrives while the Shell
-    // runs; the ones already waiting at login only show in the menu.
+    // Each suggestion that arrives while the Shell runs gets an alert (a card
+    // that stays, or a plain notification, per the `alerts` setting); the
+    // ones already waiting at login get one summary between them.
     _notifyNew() {
         const suggested = (this._items ?? []).filter(item => item.status === 'suggested');
         const ids = new Set(suggested.map(item => item.id));
-        if (this._seen === null || !this._settings.get_boolean('notify')) {
+        const mode = this._settings.get_string('alerts');
+        this._alerts.sync(suggested);
+
+        if (this._seen === null) {
             this._seen = ids;
+            if (suggested.length > 0 && mode === 'persistent')
+                this._alerts.showSummary(suggested);
+            else if (suggested.length > 0 && mode === 'banner')
+                this._notifySummary(suggested);
 
             return;
         }
         for (const item of suggested) {
-            if (!this._seen.has(item.id))
+            if (this._seen.has(item.id))
+                continue;
+            if (mode === 'persistent')
+                this._alerts.show(item);
+            else if (mode === 'banner')
                 this._notify(item);
         }
         this._seen = ids;
+    }
+
+    _notifySummary(suggested) {
+        const source = this._source();
+        const notification = new MessageTray.Notification({
+            source,
+            title: suggested.length === 1 ? '1 sugestão à espera' : `${suggested.length} sugestões à espera`,
+            body: suggested.map(item => item.title).join(' · '),
+        });
+        notification.addAction('Ver', () => this.menu.open());
+        source.addNotification(notification);
     }
 
     _source() {
@@ -595,6 +579,7 @@ class Indicator extends PanelMenu.Button {
         this._unwatch?.();
         this._unwatch = null;
         this._notificationSource?.destroy();
+        this._alerts.destroy();
         super.destroy();
     }
 });

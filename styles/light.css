@@ -1,12 +1,22 @@
 
 /* Light: frosted white with soft shadow */
 
-.fios-menu {
+.fios-menu,
+.fios-toast {
   background-color: rgba(252, 252, 253, 0.97);
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
   color: #18181b;
 }
+
+.fios-toast { border-color: rgba(94, 106, 210, 0.35); }
+
+.fios-pill-ghost {
+  color: #18181b;
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.fios-pill-ghost:hover { background-color: rgba(0, 0, 0, 0.11); }
 
 .fios-row:hover,
 .fios-row:focus,

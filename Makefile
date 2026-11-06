@@ -2,7 +2,7 @@ UUID := fios@jmonjardino.dev
 BUILD := build
 PACKAGE := $(BUILD)/$(UUID).shell-extension.zip
 SCHEMA := schemas/org.gnome.shell.extensions.fios.gschema.xml
-SOURCES := extension.js indicator.js prefs.js model.js store.js metadata.json $(SCHEMA) icons/fios-symbolic.svg
+SOURCES := extension.js indicator.js alerts.js widgets.js prefs.js model.js store.js metadata.json $(SCHEMA) icons/fios-symbolic.svg
 STYLES := $(BUILD)/stylesheet-dark.css $(BUILD)/stylesheet-light.css
 SHOTS ?= $(BUILD)/shots
 CLI_DIR := $(HOME)/.local/share/fios/cli
@@ -23,7 +23,7 @@ pack: $(PACKAGE)
 
 $(PACKAGE): $(SOURCES) $(STYLES)
 	gnome-extensions pack --force --out-dir=$(BUILD) --schema=$(SCHEMA) \
-		--extra-source=indicator.js --extra-source=model.js --extra-source=store.js \
+		--extra-source=indicator.js --extra-source=alerts.js --extra-source=widgets.js --extra-source=model.js --extra-source=store.js \
 		--extra-source=icons \
 		--extra-source=$(BUILD)/stylesheet-dark.css --extra-source=$(BUILD)/stylesheet-light.css .
 

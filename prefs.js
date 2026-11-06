@@ -1,12 +1,25 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import Adw from 'gi://Adw';
-import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 const POSITIONS = [['left', 'Esquerda'], ['center', 'Centro'], ['right', 'Direita']];
+const ALERTS = [
+    ['persistent', 'Cartão no ecrã até decidir'],
+    ['banner', 'Notificação normal do GNOME'],
+    ['off', 'Só no menu'],
+];
+
+function choiceRow(settings, key, title, choices, fallback) {
+    const row = new Adw.ComboRow({title, model: Gtk.StringList.new(choices.map(([, label]) => label))});
+    const current = choices.findIndex(([id]) => id === settings.get_string(key));
+    row.selected = current === -1 ? fallback : current;
+    row.connect('notify::selected', () => settings.set_string(key, choices[row.selected][0]));
+
+    return row;
+}
 
 export default class FiosPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
@@ -14,15 +27,7 @@ export default class FiosPreferences extends ExtensionPreferences {
         const page = new Adw.PreferencesPage();
 
         const bar = new Adw.PreferencesGroup({title: 'Top bar'});
-        const position = new Adw.ComboRow({
-            title: 'Posição do botão',
-            model: Gtk.StringList.new(POSITIONS.map(([, label]) => label)),
-        });
-        const current = POSITIONS.findIndex(([id]) => id === settings.get_string('position'));
-        position.selected = current === -1 ? 2 : current;
-        position.connect('notify::selected', () =>
-            settings.set_string('position', POSITIONS[position.selected][0]));
-        bar.add(position);
+        bar.add(choiceRow(settings, 'position', 'Posição do botão e dos cartões', POSITIONS, 2));
 
         const shortcut = new Adw.EntryRow({
             title: 'Atalho para abrir (ex.: <Super>period; vazio para nenhum)',
@@ -46,9 +51,7 @@ export default class FiosPreferences extends ExtensionPreferences {
             title: 'Sugestões dos agentes',
             description: 'Os agentes propõem fios com `fio propor`; aprovas ou rejeitas no menu.',
         });
-        const notify = new Adw.SwitchRow({title: 'Notificar quando chega uma sugestão'});
-        settings.bind('notify', notify, 'active', Gio.SettingsBindFlags.DEFAULT);
-        agents.add(notify);
+        agents.add(choiceRow(settings, 'alerts', 'Quando chega uma sugestão', ALERTS, 0));
         page.add(agents);
 
         window.add(page);

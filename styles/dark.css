@@ -1,12 +1,22 @@
 
 /* Dark: near-black zinc glass with hairline borders */
 
-.fios-menu {
+.fios-menu,
+.fios-toast {
   background-color: rgba(18, 18, 22, 0.94);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
   color: #ededf0;
 }
+
+.fios-toast { border-color: rgba(124, 131, 255, 0.35); }
+
+.fios-pill-ghost {
+  color: #ededf0;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.fios-pill-ghost:hover { background-color: rgba(255, 255, 255, 0.14); }
 
 .fios-row:hover,
 .fios-row:focus,

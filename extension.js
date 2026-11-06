@@ -27,7 +27,7 @@ export default class FiosExtension extends Extension {
         this._indicator?.destroy();
         const position = this._settings.get_string('position');
         const box = BOXES.includes(position) ? position : 'right';
-        this._indicator = new Indicator(this, this._settings);
+        this._indicator = new Indicator(this, this._settings, box);
         Main.panel.addToStatusArea(this.uuid, this._indicator, box === 'right' ? 0 : -1, box);
     }
 
